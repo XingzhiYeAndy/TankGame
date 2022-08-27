@@ -2,7 +2,7 @@ package tank;
 
 public class Bomb {
     int x,y;
-    int life =9;//生命周期
+    int life =MyPanel.fps/6;//生命周期
     boolean isLive=true;
 
     public Bomb(int x, int y) {
