@@ -6,6 +6,9 @@ public class MyTank extends Tank {
         super(x, y, direct, speed);
     }
     public void shotEnemyTank(){
+        if (shot!=null){
+            shot.isLive=false;
+        }
         switch (getDirect()){
             case 0:
                 shot =new Shot(getX()+20,getY(),0);

@@ -4,7 +4,7 @@ public class Shot implements Runnable {
     public int x;
     public int y;
     public int direct;
-    public int speed=2;
+    public int speed=8;
     boolean isLive=true;
 
     public Shot(int x, int y, int direct) {
@@ -36,11 +36,13 @@ public class Shot implements Runnable {
                     x-=speed;
                     break;
             }
-            System.out.println(x+" "+y);
-            if (!(x>=0&&x<=1000&&y>=0&&y<=750)){
-                isLive=false;
+//            System.out.println(x+" "+y);
+            if (!(x>=0&&x<=1000&&y>=0&&y<=750)||!isLive){
+
                 break;
             }
         }
+        isLive=false;
+
     }
 }
