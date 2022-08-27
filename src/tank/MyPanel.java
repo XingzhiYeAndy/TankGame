@@ -34,7 +34,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         myTank = new MyTank(100, 100, 0, 6);
         // 循环加入敌人坦克
         for (int i = 0; i < enemyTankNum; i++) {
-            EnemyTank enemyTank = new EnemyTank(100 + i * 100, 10, 2, 2);
+            EnemyTank enemyTank = new EnemyTank(100 + i * 100, 10, 2, 1);
             new Thread(enemyTank).start();
             Shot shot = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirect());
             enemyTank.shots.add(shot);
@@ -90,7 +90,6 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                 break;
             case KeyEvent.VK_J:
                 myTank.shotEnemyTank();
-                myTank.shotEnemyTank();
                 break;
 
         }
@@ -110,10 +109,16 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         g.fillRect(0, 0, panelWidth, panelHeight);
         //draw my tank
         drawTank(myTank.getX(), myTank.getY(), g, myTank.getDirect(), 1);
-        //draw my shot
-        if (myTank.shot != null && myTank.shot.isLive == true) {
-            g.draw3DRect(myTank.shot.x, myTank.shot.y, 1, 1, false);
+        //画子弹
+        for (int i = 0; i < myTank.shots.size(); i++) {
+            if (myTank.shots.get(i).isLive){
+                g.draw3DRect(myTank.shots.get(i).x, myTank.shots.get(i).y, 1, 1, false);
+            }else{
+                myTank.shots.remove(i);
+                i--;
+            }
         }
+
         //draw enemy tanks and shots
         for (int i = 0; i < enemyTanks.size(); i++) {
 
@@ -225,12 +230,15 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                 throw new RuntimeException(e);
             }
             // 判断是否击中敌人坦克
-            if (myTank.shot != null && myTank.shot.isLive) {
-                for (EnemyTank enemyTank : enemyTanks) {
-                    hitTank(myTank.shot, enemyTank);
-                }
+            for (int i = 0; i < myTank.shots.size(); i++) {
+                if (myTank.shots.get(i) != null && myTank.shots.get(i).isLive) {
+                    for (EnemyTank enemyTank : enemyTanks) {
+                        hitTank(myTank.shots.get(i), enemyTank);
+                    }
 
+                }
             }
+
             this.repaint();
         }
 

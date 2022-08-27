@@ -1,15 +1,19 @@
 package tank;
 
+import java.util.Vector;
+
 public class MyTank extends Tank {
-    Shot shot=null;
+
+    Vector<Shot> shots =new Vector<>();
 
     public MyTank(int x, int y, int direct, int speed) {
         super(x, y, direct, speed);
     }
     public void shotEnemyTank(){
-        if (shot!=null){
-            shot.isLive=false;
+        if (shots.size()>=5){
+            return;
         }
+        Shot shot=null;
         switch (getDirect()){
             case 0:
                 shot =new Shot(getX()+20,getY(),0);
@@ -24,6 +28,7 @@ public class MyTank extends Tank {
                 shot =new Shot(getX(),getY()+20,3);
                 break;
         }
+        shots.add(shot);
         new Thread(shot).start();
     }
 }

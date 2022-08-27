@@ -4,7 +4,7 @@ public class Shot implements Runnable {
     public int x;
     public int y;
     public int direct;
-    public int speed=16;
+    public int speed=500/MyPanel.fps;
     boolean isLive=true;
 
     public Shot(int x, int y, int direct) {
@@ -16,9 +16,10 @@ public class Shot implements Runnable {
 
     @Override
     public void run() {
+        int sleeping =1000/MyPanel.fps;
         while (true){
             try {
-                Thread.sleep(50);
+                Thread.sleep(sleeping);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
