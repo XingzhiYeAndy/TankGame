@@ -6,14 +6,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Vector;
 
 public class MyPanel extends JPanel implements KeyListener {
     MyTank myTank=null;
-
+    Vector<EnemyTank> enemyTanks=new Vector<>();
+    int enemyTankNum=3;
     public MyPanel() {
 
         myTank=new MyTank(100,100,0,5);
-
+        for (int i = 0; i < enemyTankNum; i++) {
+            enemyTanks.add(new EnemyTank(100+i*100,10,2,3));
+        }
     }
 
     @Override
@@ -23,34 +27,6 @@ public class MyPanel extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-//        int x=switch (e.getKeyCode()){
-//
-//            case KeyEvent.VK_A -> -1;
-//
-//            case KeyEvent.VK_D -> 1;
-//
-//            default->{yield 0;}
-//
-//
-//        };
-//        int y=switch (e.getKeyCode()){
-//
-//            case KeyEvent.VK_W -> -1;
-//
-//            case KeyEvent.VK_S -> 1;
-//
-//            default -> 0;
-//        };
-//        x=myTank.getX()+x;
-//        y=myTank.getY()+y;
-//        System.out.println("x= " + x);
-//        System.out.println("y= " + y);
-//        myTank.setX(x);
-//        myTank.setX(y);
-//        System.out.println("X= " + myTank.getX());
-//        System.out.println("Y= " + myTank.getY());
-//        this.repaint();
-
         if (e.getKeyCode()==KeyEvent.VK_W){
             myTank.moveUp();
         }
@@ -77,6 +53,10 @@ public class MyPanel extends JPanel implements KeyListener {
         g.fillRect(0,0,1000,750);
         //draw my tank
         drawTank(myTank.getX(), myTank.getY(), g, myTank.getDirect(), 1);
+        for (int i = 0; i < enemyTanks.size(); i++) {
+            EnemyTank tempTank=enemyTanks.get(i);
+            drawTank(tempTank.getX(), tempTank.getY(),g, tempTank.getDirect(),0);
+        }
     }
 
     /**
