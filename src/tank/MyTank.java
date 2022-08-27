@@ -7,7 +7,7 @@ public class MyTank extends Tank {
     Vector<Shot> shots =new Vector<>();
 
     public MyTank(int x, int y, int direct, int speed) {
-        super(x, y, direct, speed);
+        super(x, y, direct, speed/MyPanel.fps);
     }
     public void shotEnemyTank(){
         if (shots.size()>=5){

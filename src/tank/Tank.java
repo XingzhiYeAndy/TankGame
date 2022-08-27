@@ -1,6 +1,7 @@
 package tank;
 
 public class Tank {
+    boolean isLive=true;
     private int x; //tank x ray
     private int y; //tank y ray
     private int direct;
