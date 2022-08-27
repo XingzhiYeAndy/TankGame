@@ -8,6 +8,7 @@ public class MyFrame extends JFrame {
     public MyFrame() throws HeadlessException {
         myPanel=new MyPanel();
         this.add(myPanel);
+        new Thread(myPanel).start();
         this.setSize(1000,750);
         this.addKeyListener(myPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

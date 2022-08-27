@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Vector;
 
-public class MyPanel extends JPanel implements KeyListener {
+public class MyPanel extends JPanel implements KeyListener,Runnable {
     MyTank myTank=null;
     Vector<EnemyTank> enemyTanks=new Vector<>();
     int enemyTankNum=3;
@@ -38,8 +38,11 @@ public class MyPanel extends JPanel implements KeyListener {
         }
         else if (e.getKeyCode()==KeyEvent.VK_A){
             myTank.moveLeft();
+        }else if(e.getKeyCode()==KeyEvent.VK_J){
+            myTank.shotEnemyTank();
+
         }
-        this.repaint();
+
     }
 
     @Override
@@ -50,9 +53,15 @@ public class MyPanel extends JPanel implements KeyListener {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+        // draw the table
         g.fillRect(0,0,1000,750);
         //draw my tank
         drawTank(myTank.getX(), myTank.getY(), g, myTank.getDirect(), 1);
+        //draw my shot
+        if (myTank.shot!=null&&myTank.shot.isLive==true){
+            g.draw3DRect(myTank.shot.x,myTank.shot.y,1,1,false);
+        }
+        //draw enemy tanks
         for (int i = 0; i < enemyTanks.size(); i++) {
             EnemyTank tempTank=enemyTanks.get(i);
             drawTank(tempTank.getX(), tempTank.getY(),g, tempTank.getDirect(),0);
@@ -68,6 +77,7 @@ public class MyPanel extends JPanel implements KeyListener {
      * @param type 坦克的类型
      */
     public void drawTank(int x,int y,Graphics g,int direct,int type){
+
         switch(type) {
             case 0: //我们的坦克
                 g.setColor(Color.cyan);
@@ -109,5 +119,19 @@ public class MyPanel extends JPanel implements KeyListener {
 
 
         }
+    }
+
+    @Override
+    public void run() {
+        while (true){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            this.repaint();
+        }
+
+
     }
 }
